@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Results | WebShield AI</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #0b1120;
+            color: #e8eefc;
+        }
+        main { max-width: 950px; margin: auto; }
+        .panel {
+            background: #121d30;
+            border: 1px solid #263650;
+            border-radius: 14px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+        h1 { color: #67efc7; }
+        .muted { color: #aab8d0; overflow-wrap: anywhere; }
+        .finding {
+            border: 1px solid #35445e;
+            border-radius: 10px;
+            padding: 17px;
+            margin-top: 14px;
+        }
+        .severity { color: #f4c76b; font-weight: bold; }
+        .button {
+            display: inline-block;
+            background: #49dcb1;
+            color: #08251e;
+            padding: 12px 17px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <h1>🛡️ WebShield AI</h1>
+    <p class="muted">Security assessment results</p>
+
+    <section class="panel">
+        <h2>Scan summary</h2>
+        <p><strong>Target:</strong> <span class="muted">{{ target }}</span></p>
+        <p><strong>HTTP status:</strong> {{ result.status }}</p>
+        <p><strong>Potential findings:</strong> {{ result.findings|length }}</p>
+    </section>
+
+    <section class="panel">
+        <h2>Security findings</h2>
+
+        {% if result.findings %}
+            {% for finding in result.findings %}
+                <div class="finding">
+                    <h3>{{ finding.title }}</h3>
+                    <p class="severity">Severity: {{ finding.severity }}</p>
+                    <p><strong>Evidence:</strong> {{ finding.evidence }}</p>
+                    <p><strong>Recommendation:</strong> {{ finding.recommendation }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No missing security headers were detected by these checks.</p>
+            <p class="muted">This does not mean the target is completely secure.</p>
+        {% endif %}
+    </section>
+
+    <a class="button" href="/">← Back to Dashboard</a>
+</main>
+</body>
+</html>
